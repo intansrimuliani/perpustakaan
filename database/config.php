@@ -1,29 +1,35 @@
 <?php
-class config
+class Config
 {
     private static $dpName = 'perpustakaan_ntan';
     private static $dpHost = 'localhost';
     private static $dpUsername = 'root';
     private static $dpPass = '';
     private static $connection = null;
-    public function __construct() {
-        die('Init function is not allowet');
+
+    // Prevent direct creation of object
+    private function __construct() {
+        // Prevent instantiation
+        throw new Exception('Cannot instantiate Config class');
     }
+
+    // Create and return the database connection
     public static function connect()
     {
-        if (null == self ::$connection)
-        {
-            try
-            {
-                self::$connection = new PDO("mysql:host=" . selft::$dpHost . ";dpname=" . self::$dpName, self::$dpUsername, self::$dpPass);
-            }
-            catch(PDOException $e)
-            {
-                die($e->getMessage());
+        if (self::$connection === null) {
+            try {
+                $dsn = "mysql:host=" . self::$dpHost . ";dbname=" . self::$dpName;
+                self::$connection = new PDO($dsn, self::$dpUsername, self::$dpPass);
+                self::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            } catch (PDOException $e) {
+                // Log the exception message or handle it as needed
+                die('Database connection failed: ' . $e->getMessage());
             }
         }
         return self::$connection;
     }
+
+    // Disconnect from the database
     public static function disconnect()
     {
         self::$connection = null;

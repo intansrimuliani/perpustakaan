@@ -19,56 +19,54 @@
     <body>
         <nav class="navbar navbar-expand-sm navbar-dark bg-info">
             <div class="container">
-                <a class="navbar-brand" href="#">Data perpustakaan</a>
+                <a class="navbar-brand" href="#">Data pegawai</a>
             </div>
         </nav>
         <div class="container mt-5 mb-5">
             <div class="card">
                 <div class="card-header">
-                    <h5>Data anggota</h5>
-                    <a href="tambah.php?page=anggota&act=tambah" class="btn btn-primary">Tambah Anggota</a>
+                    <h5> Data pegawai</h5>
+                    <a href="tambah.php?page=pegawai&act=tambah" class="btn btn-primary">Tambah pegawai</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped table-bordered" id="table-artikel-query">
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Anggota</th>
-                                <th>Alamat Anggota</th>
-                                <th>No Telp</th>
+                                <th>Nama Pegawai</th>
+                                <th>Alamat Pegawai</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                         <?php
                         include("../../database/config.php");
-                        include("../../class/anggota.php");
+                        include("../../class/pegawai.php");
                         $pdo = config::connect();
-                        $anggota = anggota::getInstance($pdo);
-                        $dataanggota = $anggota->getAll();
+                        $pegawai = pegawai::getInstance($pdo);
+                        $dataPegawai = $pegawai->getAll();
                         $no = 1;
 
-                        foreach ($dataanggota as $row) 
+                        foreach ($dataPegawai as $row) 
                         ?> 
                         <tr>
-                            <td><?php echo htmlspecialchars($row['nama_anggota']); ?></td>
-                            <td><?php echo htmlspecialchars($row['alamat_anggota']); ?></td>
-                            <td><?php echo htmlspecialchars($row['no_telepon']); ?></td>
+                            <td><?php echo htmlspecialchars($row['nama_pegawai']); ?></td>
+                            <td><?php echo htmlspecialchars($row['alamat_pegawai']); ?></td>
 
                             <td>
-                                <a href="edit.php?page=anggota&act=edit&id_anggota=<?php echo $row['id_anggota'] ?>" class="btn btn-warning btn-sm">
+                                <a href="edit.php?page=pegawai&act=edit&id_pegawai=<?php echo $row['id_pegawai'] ?>" class="btn btn-warning btn-sm">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
-                                <a href="hapus.php?page=anggota&act=hapus&id_anggota=<?php echo $row['id_anggota'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda ingin menghapus data ini?')">
+                                <a href="hapus.php?page=pegawai&act=hapus&id_pegawai=<?php echo $row['id_pegawai'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda ingin menghapus data ini?')">
                                 <i class="fas fa-trash"></i> Hapus
                                 </a>
                             </td>   
                         </tr>
                     <?php
                     
-                   // config::disconnect();
+                   // koneksi::disconnect();
                     ?>
-                </body>
+                </tbody>
             </table>
         </div>
     </div>

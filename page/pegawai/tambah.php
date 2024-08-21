@@ -8,7 +8,7 @@
        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- cdn css bootstrap end-->
-    <title>Tambah anggota</title>
+    <title>Tambah pegawai</title>
 </head>
 <body>
     <div class="container">
@@ -16,7 +16,7 @@
             <div class="col-md-8 offset-md-2">
                 <div class="card">
                     <div class="card-header bg-primary">
-                        <h4 class="text-center">Tambah Anggota</h4>
+                        <h4 class="text-center">Tambah Pegawai</h4>
                    </div>
 
                    </div>
@@ -25,17 +25,12 @@
 
                     <div class="form-group mb-2">
                         <label  class="form-label">Nama</label>
-                             <input type="text"  name="nama_anggota" placeholder="Masukkan Nama anda" class="form-control border border-primary ">
+                             <input type="text"  name="nama_pegawai" placeholder="Masukkan Nama anda" class="form-control border border-primary ">
                          </div>
 
                          <div class="form-group mb-2">
                             <label  class="form-label">Alamat</label>
-                                <input type="text"  name="alamat_anggota" placeholder="Masukkan Alamat Anda" class="form-control border border-primary">
-                        </div>
-
-                        <div class="form-group mb-2">
-                            <label class="form-label">No Telepon</label>
-                                <input type="tel" name="no_telepon" placeholder="Masukkan Nomor Telepon Aktif" class="form-control border border-primary">
+                                <input type="text"  name="alamat_pegawai" placeholder="Masukkan Alamat Anda" class="form-control border border-primary">
                         </div>
 
                         <div class="d-flex justify-content-between">
@@ -63,16 +58,15 @@
 
 if(isset($_POST['simpan'])){
 
-    $nama_anggota = $_POST['nama_anggota'];
-    $alamat_anggota = $_POST['alamat_anggota'];
-    $no_telepon = $_POST['no_telepon'];
+    $nama_pegawai = $_POST['nama_pegawai'];
+    $alamat_pegawai = $_POST['alamat_pegawai'];
    
 
     include("../../database/config.php");
-    include("../../class/anggota.php");
+    include("../../class/pegawai.php");
         $pdo = config::connect();
-        $anggota = anggota::getInstance($pdo);
-        if ($anggota->add($nama_anggota, $alamat_anggota, $no_telepon)) {
+        $pegawai = pegawai::getInstance($pdo);
+        if ($pegawai->add($namapegawai, $alamatpegawai)) {
             echo "<script>window.location.href = 'index.php'</script>";
         } else {
             echo "Terjadi kesalahan saat menyimpan data.";

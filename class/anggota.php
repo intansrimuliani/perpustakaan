@@ -5,24 +5,25 @@ class Anggota
     private $db;
     private static $instance = null;
 
-    public function __construct($db_conn)
+    private function __construct($db_conn)
     {
         $this->db = $db_conn;
     }
 
+    // Singleton pattern
     public static function getInstance($pdo)
     {
-        if (self::$instance == null) {
+        if (self::$instance === null) {
             self::$instance = new Anggota($pdo);
         }
         return self::$instance;
     }
 
-    // FUNCTION TAMBAH ANGGOTA START
+    // Add Anggota
     public function add($id_anggota, $nama_anggota, $alamat_anggota, $no_telepon)
     {
         try {
-            $stmt = $this->db->prepare("INSERT INTO anggota (id_anggota, nama_anggota, alamat_anggota, no_telepon) VALUES (:id_angota, :nama_anggota, :alamat_anggota, :no_telepon)");
+            $stmt = $this->db->prepare("INSERT INTO anggota (id_anggota, nama_anggota, alamat_anggota, no_telepon) VALUES (:id_anggota, :nama_anggota, :alamat_anggota, :no_telepon)");
             $stmt->bindParam(":id_anggota", $id_anggota);
             $stmt->bindParam(":nama_anggota", $nama_anggota);
             $stmt->bindParam(":alamat_anggota", $alamat_anggota);
@@ -30,30 +31,30 @@ class Anggota
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            // Better error handling (logging or custom error page)
+            error_log($e->getMessage());
             return false;
         }
     }
 
+    // Get Anggota by ID
     public function getID($id_anggota)
     {
         try {
             $stmt = $this->db->prepare("SELECT * FROM anggota WHERE id_anggota = :id_anggota");
             $stmt->execute(array(":id_anggota" => $id_anggota));
-            $data = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $data;
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return false;
         }
     }
-    // FUNCTION TAMBAH ANGGOTA END
 
-    // FUNCTION EDIT ANGGOTA START
+    // Update Anggota
     public function update($id_anggota, $nama_anggota, $alamat_anggota, $no_telepon)
     {
         try {
-            $stmt = $this->db->prepare("UPDATE anggota SET nama_anggota = :nama_anggota, alamat_anggota = :alamat_anggota, no_telepon = :no_telepon,  WHERE id_anggota = :id_anggota");
+            $stmt = $this->db->prepare("UPDATE anggota SET nama_anggota = :nama_anggota, alamat_anggota = :alamat_anggota, no_telepon = :no_telepon WHERE id_anggota = :id_anggota");
             $stmt->bindParam(":id_anggota", $id_anggota);
             $stmt->bindParam(":nama_anggota", $nama_anggota);
             $stmt->bindParam(":alamat_anggota", $alamat_anggota);
@@ -61,13 +62,12 @@ class Anggota
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return false;
         }
     }
-    // FUNCTION EDIT ANGGOTA END
 
-    // FUNCTION DELETE ANGGOTA START
+    // Delete Anggota
     public function delete($id_anggota)
     {
         try {
@@ -76,25 +76,22 @@ class Anggota
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return false;
         }
     }
-    // FUNCTION DELETE ANGGOTA END
 
-    // FUNCTION GET ALL ANGGOTA START
+    // Get All Anggota
     public function getAll()
     {
         try {
             $stmt = $this->db->prepare("SELECT * FROM anggota");
             $stmt->execute();
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $data;
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            error_log($e->getMessage());
             return false;
         }
     }
-    // FUNCTION GET ALL ANGGOTA END
 }
 ?>
