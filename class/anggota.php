@@ -18,11 +18,12 @@ class Anggota
         return self::$instance;
     }
 
-    // function for menambahkan anggota dimulaiiiii 
-    public function tambah($nama_anggota, $alamat_anggota, $no_telepon)
+    // FUNCTION TAMBAH ANGGOTA START
+    public function add($id_anggota, $nama_anggota, $alamat_anggota, $no_telepon)
     {
         try {
-            $stmt = $this->db->prepare("INSERT INTO anggota (nama_anggota, alamat_anggota, no_telepon) VALUES (:nama_anggota, :alamat_anggota, :no_telepon)");
+            $stmt = $this->db->prepare("INSERT INTO anggota (id_anggota, nama_anggota, alamat_anggota, no_telepon) VALUES (:id_angota, :nama_anggota, :alamat_anggota, :no_telepon)");
+            $stmt->bindParam(":id_anggota", $id_anggota);
             $stmt->bindParam(":nama_anggota", $nama_anggota);
             $stmt->bindParam(":alamat_anggota", $alamat_anggota);
             $stmt->bindParam(":no_telepon", $no_telepon);
@@ -46,13 +47,13 @@ class Anggota
             return false;
         }
     }
-    // function for tambah anggota doneee
+    // FUNCTION TAMBAH ANGGOTA END
 
-    // function for mengedit anggota dimulaiiiii 
-    public function edit($id_anggota, $nama_anggota, $alamat_anggota, $no_telepon)
+    // FUNCTION EDIT ANGGOTA START
+    public function update($id_anggota, $nama_anggota, $alamat_anggota, $no_telepon)
     {
         try {
-            $stmt = $this->db->prepare("UPDATE anggota SET nama_anggota = :nama_anggota, alamat_anggota   WHERE id_anggota = :id_anggota");
+            $stmt = $this->db->prepare("UPDATE anggota SET nama_anggota = :nama_anggota, alamat_anggota = :alamat_anggota, no_telepon = :no_telepon,  WHERE id_anggota = :id_anggota");
             $stmt->bindParam(":id_anggota", $id_anggota);
             $stmt->bindParam(":nama_anggota", $nama_anggota);
             $stmt->bindParam(":alamat_anggota", $alamat_anggota);
@@ -64,10 +65,10 @@ class Anggota
             return false;
         }
     }
-    // function for mengedit anggota doneee
+    // FUNCTION EDIT ANGGOTA END
 
-    // function for menghapus anggota dimulaiiiii 
-    public function hapus($id_anggota)
+    // FUNCTION DELETE ANGGOTA START
+    public function delete($id_anggota)
     {
         try {
             $stmt = $this->db->prepare("DELETE FROM anggota WHERE id_anggota = :id_anggota");
@@ -79,9 +80,9 @@ class Anggota
             return false;
         }
     }
-    // function for menghapus anggota doneee
+    // FUNCTION DELETE ANGGOTA END
 
-    // function for mendapatkan semua anggota dimulaiiiii 
+    // FUNCTION GET ALL ANGGOTA START
     public function getAll()
     {
         try {
@@ -94,5 +95,6 @@ class Anggota
             return false;
         }
     }
-    // function for menampilkan semua anggota doneee
+    // FUNCTION GET ALL ANGGOTA END
 }
+?>
