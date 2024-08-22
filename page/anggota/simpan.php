@@ -1,14 +1,19 @@
-<?php 
-include_once("../../database/config.php");
-include_once("../../class/anggota.php");
+<?php
+include("../../database/config.php");
+include("../../class/anggota.php");
 
 $act = isset($_GET['act']) ? $_GET['act'] : '';
-
-$allowed_actions = ['tambah', 'edit', 'hapus'];
-
-if (in_array($act, $allowed_actions)) {
-    include $act . '.php';
-} else {
-    include 'index.php';
+switch ($act) {
+    case 'tambah':
+        include 'tambah.php';
+        break;
+    case 'edit':
+        include 'edit.php';
+        break;
+    case 'hapus':
+        include 'hapus.php';
+        break;
+    default:
+        include 'index.php';
+        break;
 }
-?>

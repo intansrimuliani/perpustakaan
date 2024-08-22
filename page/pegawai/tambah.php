@@ -2,75 +2,64 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <!-- cdn css bootstrap start -->
-       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- cdn css bootstrap end-->
     <title>Tambah pegawai</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="row mt-5">
-            <div class="col-md-8 offset-md-2">
-                <div class="card">
-                    <div class="card-header bg-primary">
-                        <h4 class="text-center">Tambah Pegawai</h4>
-                   </div>
-
-                   </div>
-                <div class="card-body p-4">
-                    <form action="simpan.php" method="POST">
-
-                    <div class="form-group mb-2">
-                        <label  class="form-label">Nama</label>
-                             <input type="text"  name="nama_pegawai" placeholder="Masukkan Nama anda" class="form-control border border-primary ">
-                         </div>
-
-                         <div class="form-group mb-2">
-                            <label  class="form-label">Alamat</label>
-                                <input type="text"  name="alamat_pegawai" placeholder="Masukkan Alamat Anda" class="form-control border border-primary">
-                        </div>
-
-                        <div class="d-flex justify-content-between">
-                            <button type="submit" name="simpan" class="btn btn-success">Simpan</button>
-                            <button type="reset" class="btn btn-danger">Reset</button>
-                        </div>
-                    </form>
-
-                </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h3>Tambah pegawai</h3>
+                <form action="" method="post">
+                    <div class="form-group">
+                        <label for="nama_pegawai">Nama</label>
+                        <input id="nama_pegawai" name="nama_pegawai" type="text" class="form-control" placeholder="Masukkan Nama pegawai" required>
                     </div>
-                        </div>
-                         </div>
-                            <div class="text-end">
-                                <a href="index.php" class="btn btn-sm btn-primary p-2 mt-4">Back</a>
-                            </div>
-                        </div>
-
-    <script src="https://code.jquery.com/jquery-    3.4.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+                    <div class="form-group">
+                        <label for="alamat_pegawai">Alamat</label>
+                        <input id="alamat_pegawai" name="alamat_pegawai" class="form-control" placeholder="Masukkan Alamat" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" name="simpan" class="btn btn-primary">Simpan</button>
+                        <a href="index.php?page=pegawai" class="btn btn-secondary">Kembali</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
 
 <?php
-
-
-if(isset($_POST['simpan'])){
-
+if (isset($_POST['simpan'])) {
+    // Retrieve form data
     $nama_pegawai = $_POST['nama_pegawai'];
     $alamat_pegawai = $_POST['alamat_pegawai'];
-   
 
+    // Include required files
     include("../../database/config.php");
     include("../../class/pegawai.php");
-        $pdo = config::connect();
-        $pegawai = pegawai::getInstance($pdo);
-        if ($pegawai->add($namapegawai, $alamatpegawai)) {
-            echo "<script>window.location.href = 'index.php'</script>";
-        } else {
-            echo "Terjadi kesalahan saat menyimpan data.";
 
+    try {
+        // Create a database connection
+        $pdo = Config::connect();
+        // Get an instance of the pegawai class
+        $pegawai = pegawai::getInstance($pdo);
+        // Add the new member
+        if ($pegawai->tambah($nama_pegawai, $alamat_pegawai)) {
+            echo "<script>alert('Data berhasil disimpan.'); window.location.href = 'index.php?page=pegawai';</script>";
+        } else {
+            echo "<script>alert('Terjadi kesalahan saat menyimpan data.');</script>";
         }
+    } catch (Exception $e) {
+        // Handle exceptions
+        echo "<script>alert('Terjadi kesalahan: " . $e->getMessage() . "');</script>";
     }
+}
 ?>

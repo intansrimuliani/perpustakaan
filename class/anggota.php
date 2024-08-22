@@ -1,5 +1,4 @@
 <?php
-
 class Anggota
 {
     private $db;
@@ -20,29 +19,28 @@ class Anggota
     }
 
     // Add Anggota
-    public function add($id_anggota, $nama_anggota, $alamat_anggota, $no_telepon)
+    public function tambah($nama_anggota, $alamat_anggota, $no_telepon)
     {
         try {
-            $stmt = $this->db->prepare("INSERT INTO anggota (id_anggota, nama_anggota, alamat_anggota, no_telepon) VALUES (:id_anggota, :nama_anggota, :alamat_anggota, :no_telepon)");
-            $stmt->bindParam(":id_anggota", $id_anggota);
+            $stmt = $this->db->prepare("INSERT INTO anggota (nama_anggota, alamat_anggota, no_telepon) VALUES (:nama_anggota, :alamat_anggota, :no_telepon)");
             $stmt->bindParam(":nama_anggota", $nama_anggota);
             $stmt->bindParam(":alamat_anggota", $alamat_anggota);
             $stmt->bindParam(":no_telepon", $no_telepon);
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            // Better error handling (logging or custom error page)
             error_log($e->getMessage());
             return false;
         }
     }
 
     // Get Anggota by ID
-    public function getID($id_anggota)
+    public function getById($id_anggota)
     {
         try {
             $stmt = $this->db->prepare("SELECT * FROM anggota WHERE id_anggota = :id_anggota");
-            $stmt->execute(array(":id_anggota" => $id_anggota));
+            $stmt->bindParam(":id_anggota", $id_anggota);
+            $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log($e->getMessage());

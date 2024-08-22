@@ -1,16 +1,16 @@
-<?php 
-include '../../database/config.php';
-
-if(empty($_GET['id_anggota']))  {
-    header("location: index.php");
+<?php
+if ($currentUser['level'] != 1) {
+    echo "<script>window.location = 'index.php?alert=err2';</script>";
+    exit;
 }
 
-$id = $_GET['id_anggota'];
+$pdo = Koneksi::connect();
+$anggota= Anggota::getInstance($pdo);
 
-$pdo = dataBase::__connect();
-$sql = "DELETE FROM anggota WHERE id_anggota = ?";
-$q = $pdo->prepare($sql);
-$q->execute(array($id));
- dataBase::disconnect();
-  header("location: index.php");
-?>
+$id_anggota = isset($_GET['id_anggota']) ? $_GET['id_anggota'] : null;
+
+if ($id_anggota && $anggota->hapus($id_anggota)) {
+    echo "<script>window.location.href = 'index.php?page=anggota&alert=hapus'</script>";
+} else {
+    echo "Gagal menghapus anggota.";
+}

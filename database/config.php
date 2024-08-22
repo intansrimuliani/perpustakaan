@@ -1,38 +1,35 @@
 <?php
-class Config
+Class config
 {
-    private static $dpName = 'perpustakaan_ntan';
-    private static $dpHost = 'localhost';
-    private static $dpUsername = 'root';
-    private static $dpPass = '';
-    private static $connection = null;
+    private static $dbName = 'mycrud';
+    private static $dbHost = 'localhost';
+    private static $dbUser = 'root';
+    private static $dbPass = '';
 
-    // Prevent direct creation of object
-    private function __construct() {
-        // Prevent instantiation
-        throw new Exception('Cannot instantiate Config class');
+    private static $instance = null;
+
+    public function __construct()
+    {
+        die('Init function is not allowed');
     }
 
-    // Create and return the database connection
     public static function connect()
     {
-        if (self::$connection === null) {
+        //Mengganti Pesan error
+        // set_exception_handler(function ($e) {
+        //     error_log($e->getMessage());
+        //     exit('something Wrong');
+        // });
+
+        if (self::$instance == null) {
             try {
-                $dsn = "mysql:host=" . self::$dpHost . ";dbname=" . self::$dpName;
-                self::$connection = new PDO($dsn, self::$dpUsername, self::$dpPass);
-                self::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                self::$instance = new PDO("mysql:host=" . self::$dbHost . ";" . "dbname=" . self::$dbName, self::$dbUser, self::$dbPass);
+                self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
             } catch (PDOException $e) {
-                // Log the exception message or handle it as needed
-                die('Database connection failed: ' . $e->getMessage());
+                die($e->getMessage());
             }
         }
-        return self::$connection;
-    }
-
-    // Disconnect from the database
-    public static function disconnect()
-    {
-        self::$connection = null;
+        return self::$instance;
     }
 }
-?>

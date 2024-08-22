@@ -18,11 +18,11 @@ class pegawai
         return self::$instance;
     }
 
-    // FUNCTION TAMBAH PEGAWAI START
-    public function add( $nama_pegawai, $alamat_pegawai)
+    // function for menambahkan pegawai dimulaiiiii 
+    public function tambah($nama_pegawai, $alamat_pegawai)
     {
         try {
-            $stmt = $this->db->prepare("INSERT INTO pegawai (id_pegawai, nama_pegawai, alamat_pegawai) VALUES (:id_pegawai, :nama_pegawai,  :alamat_pegawai)");
+            $stmt = $this->db->prepare("INSERT INTO pegawai (nama_pegawai,alamat_pegawai) VALUES (:nama_pegawai, :alamat_pegawai)");
             $stmt->bindParam(":nama_pegawai", $nama_pegawai);
             $stmt->bindParam(":alamat_pegawai", $alamat_pegawai);
             $stmt->execute();
@@ -45,13 +45,13 @@ class pegawai
             return false;
         }
     }
-    // FUNCTION TAMBAH PEGAWAI END
+    // function for tambah pegawai doneee
 
-    // FUNCTION EDIT PEGAWAI START
-    public function update($id_pegawai, $nama_pegawai,  $alamat_pegawai)
+    // function for mengedit pegawai dimulaiiiii 
+    public function edit($id_pegawai, $nama_pegawai, $alamat_pegawai,)
     {
         try {
-            $stmt = $this->db->prepare("UPDATE pegawai SET id_pegawai = :id_pegawai, nama_pegawai = :nama_pegawai,  alamat_pegawai = :alamat_pegawai WHERE id_pegawai = :id_pegawai");
+            $stmt = $this->db->prepare("UPDATE pegawai SET nama_pegawai = :nama_pegawai, alamat_pegawai = :alamat_pegawai WHERE id_pegawai = :id_pegawai");
             $stmt->bindParam(":id_pegawai", $id_pegawai);
             $stmt->bindParam(":nama_pegawai", $nama_pegawai);
             $stmt->bindParam(":alamat_pegawai", $alamat_pegawai);
@@ -62,10 +62,10 @@ class pegawai
             return false;
         }
     }
-    // FUNCTION EDIT PEGAWAI END
+    // function for mengedit pegawai doneee
 
-    // FUNCTION DELETE PEGAWAI START
-    public function delete($id_pegawai)
+    // function for menghapus pegawai dimulaiiiii 
+    public function hapus($id_pegawai)
     {
         try {
             $stmt = $this->db->prepare("DELETE FROM pegawai WHERE id_pegawai = :id_pegawai");
@@ -77,9 +77,9 @@ class pegawai
             return false;
         }
     }
-    // FUNCTION DELETE PEGAWAI END
+    // function for menghapus pegawai doneee
 
-    // FUNCTION GET ALL PEGAWAI START
+    // function for mendapatkan semua pegawai dimulaiiiii 
     public function getAll()
     {
         try {
@@ -90,8 +90,9 @@ class pegawai
         } catch (PDOException $e) {
             echo $e->getMessage();
             return false;
+            //config berhasil
         }
     }
-    // FUNCTION GET ALL PEGAWAI END
+    // function for menampilkan semua pegawai doneee
 }
 ?>

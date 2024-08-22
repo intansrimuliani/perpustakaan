@@ -1,66 +1,64 @@
-<?php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anggota</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between mb-4">
+            <h3>Anggota</h3>
+            <a href="tambah.php?page=anggota&act=tambah" class="btn btn-primary">Tambah Anggota</a>
+        </div>
+        <div>
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                <tr>
+                        <th>Nama</th>
+                        <th>Alamat</th>
+                        <th>No Telepon</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                        include("../../database/config.php");
+                        include("../../class/anggota.php");
+                        $pdo = config::connect();
+                        $anggota = anggota::getInstance($pdo);
+                        $dataAnggota = $anggota->getAll();
+                        $no = 1;
 
+                        foreach ($dataAnggota as $row) {
+                        ?> 
+                        <tr>
+                            <td><?php echo htmlspecialchars($row['nama_anggota']); ?></td>
+                            <td><?php echo htmlspecialchars($row['alamat_anggota']); ?></td>
+                            <td><?php echo htmlspecialchars($row['no_telepon']); ?></td>
 
-if (empty($_GET['id_anggota'])) {
-    echo "<script>window.location.href = 'index.php?page=anggota'</script>";
-    exit();
-}
-
-$id_anggota = $_GET['id_anggota'];
-$pdo = config::connect();
-$anggota = anggota::getInstance($pdo);
-
-if (isset($_POST['simpan'])) {
-    $nama_anggota = htmlspecialchars($_POST['nama_anggota']);
-    $alamat_anggota = htmlspecialchars($_POST['alamat_anggota']);
-    $no_telepon = htmlspecialchars($_POST['no_telepon']);
-
-    $result = $anggota->edit($id_anggota, $nama_anggota, $alamat_anggota, $no_telepon);
-
-    if ($result) {
-        echo "<script>window.location.href = 'index.php?page=anggota'</script>";
-        exit();
-    } else {
-        echo "Terjadi kesalahan saat menyimpan data.";
-    }
-}
-
-$data = $anggota->getID($id_anggota);
-if (!$data) {
-    echo "<script>window.location.href = 'index.php?page=anggota'</script>";
-    exit();
-}
-
-$nama_anggota = htmlspecialchars($data['nama_anggota']);
-$alamat_anggota = htmlspecialchars($data['alamat_anggota']);
-$no_telepon = htmlspecialchars($data['no_telepon']);
-?>
-
-
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="mb-4">
-                <h3>Edit Anggota</h3>
-            </div>
-            <form action="" method="post">
-                <div class="form-group">
-                    <label for="nama_anggota">Nama Anggota</label>
-                    <input id="nama_anggota" name="nama_anggota" type="text" class="form-control" placeholder="Masukkan nama" value="<?php echo htmlspecialchars($nama_anggota); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="alamat_anggota">Alamat Anggota</label>
-                    <input id="alamat_anggota" name="alamat_anggota" type="text" class="form-control" placeholder="Masukkan alamat" value="<?php echo htmlspecialchars($alamat_anggota); ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="no_telepon">No Telp</label>
-                    <input id="no_telepon" name="no_telepon" type="text" class="form-control" placeholder="Masukkan nomor telepon" value="<?php echo htmlspecialchars($no_telepon); ?>" required>
-                </div>
-                <div class="form-group">
-                    <button type="submit" name="simpan" class="btn btn-primary">Simpan</button>
-                    <a href="index.php?page=anggota" class="btn btn-secondary">Kembali</a>
-                </div>
-            </form>
+                            <td>
+                                <a href="edit.php?page=anggota&act=edit&id_anggota=<?php echo $row['id_anggota'] ?>" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                                <a href="hapus.php?page=anggota&act=hapus&id_anggota=<?php echo $row['id_anggota'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda ingin menghapus data ini?')">
+                                <i class="fas fa-trash"></i> Hapus
+                             </a>
+                            </td>   
+                        </tr>
+                    <?php
+                    }
+                   // config::disconnect();
+                    ?>
+                </tbody>
+            </table>
         </div>
     </div>
-</div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
