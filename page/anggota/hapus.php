@@ -1,16 +1,34 @@
 <?php
-if ($currentUser['level'] != 1) {
-    echo "<script>window.location = 'index.php?alert=err2';</script>";
-    exit;
+if (empty($_GET['id_anggota'])) {
+    header("Location: index.php");
+    exit();
 }
 
-$pdo = Koneksi::connect();
-$anggota= Anggota::getInstance($pdo);
+$id_anggota = $_GET['id_anggota'];
 
-$id_anggota = isset($_GET['id_anggota']) ? $_GET['id_anggota'] : null;
+// Validasi ID anggota
+if (!ctype_digit($id_anggota)) {
+    echo "ID anggota tidak valid.";
+    exit();
+}
 
-if ($id_anggota && $anggota->hapus($id_anggota)) {
-    echo "<script>window.location.href = 'index.php?page=anggota&alert=hapus'</script>";
+// Sanitasi parameter jika perlu
+$id_anggota = htmlspecialchars($id_anggota, ENT_QUOTES, 'UTF-8');
+
+include("../../database/config.php");
+include("../../class/anggota.php");
+$pdo = config::connect();
+$anggota = anggota::getInstance($pdo);
+
+// Pastikan metode delete menggunakan prepared statements
+$result = $anggota->delete($id_anggota);
+
+if ($result) {
+    header("Location: index.php?page=anggota");
+    exit();
 } else {
-    echo "Gagal menghapus anggota.";
+    echo "Terjadi kesalahan saat menghapus data.";
 }
+
+config::disconnect();
+?>

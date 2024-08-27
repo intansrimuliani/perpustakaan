@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anggota</title>
+    <title>penerbit</title>
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -11,8 +11,8 @@
 
     <div class="container mt-5">
         <div class="d-flex justify-content-between mb-4">
-            <h3>Data Anggota</h3>
-            <a href="tambah.php?page=anggota&act=tambah" class="btn btn-primary">Tambah Anggota</a>
+            <h3>Data penerbit</h3>
+            <a href="tambah.php?page=penerbit&act=tambah" class="btn btn-primary">Tambah penerbit</a>
         </div>
         <div>
             <table class="table table-bordered">
@@ -20,31 +20,29 @@
                 <tr>
                         <th>Nama</th>
                         <th>Alamat</th>
-                        <th>No Telp</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php
                         include("../../database/config.php");
-                        include("../../class/anggota.php");
+                        include("../../class/penerbit.php");
                         $pdo = config::connect();
-                        $anggota = anggota::getInstance($pdo);
-                        $dataAnggota = $anggota->getAll();
+                        $penerbit = penerbit::getInstance($pdo);
+                        $datapenerbit = $penerbit->getAll();
                         $no = 1;
 
-                        foreach ($dataAnggota as $row) {
+                        foreach ($datapenerbit as $row) {
                         ?> 
                         <tr>
-                            <td><?php echo htmlspecialchars($row['nama_anggota']); ?></td>
-                            <td><?php echo htmlspecialchars($row['alamat_anggota']); ?></td>
-                            <td><?php echo htmlspecialchars($row['no_telepon']); ?></td>
-
+                            <td><?php echo htmlspecialchars($row['nama_penerbit']); ?></td>
+                            <td><?php echo htmlspecialchars($row['alamat_penerbit']); ?></td>
+                            
                             <td>
-                                <a href="edit.php?page=anggota&act=edit&id_anggota=<?php echo $row['id_anggota'] ?>" class="btn btn-warning btn-sm">
+                                <a href="edit.php?page=penerbit&act=edit&id_penerbit=<?php echo $row['id_penerbit'] ?>" class="btn btn-warning btn-sm">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
-                                <a href="hapus.php?page=anggota&act=hapus&id_anggota=<?php echo $row['id_anggota'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda ingin menghapus data ini?')">
+                                <a href="hapus.php?page=penerbit&act=hapus&id_penerbit=<?php echo $row['id_penerbit'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda ingin menghapus data ini?')">
                                 <i class="fas fa-trash"></i> Hapus
                              </a>
                             </td>   

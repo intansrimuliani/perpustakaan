@@ -11,7 +11,7 @@
 
     <div class="container mt-5">
         <div class="d-flex justify-content-between mb-4">
-            <h3>Pegawai</h3>
+            <h3>Data Pegawai</h3>
             <a href="tambah.php?page=pegawai&act=tambah" class="btn btn-primary">Tambah Pegawai</a>
         </div>
         <div>
