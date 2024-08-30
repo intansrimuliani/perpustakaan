@@ -3,10 +3,10 @@ session_start();
 include("database/config.php");
 include("database/class/auth.php");
 
-$pdo = Koneksi::connect();
-$user = Auth::getInstance($pdo);
+$pdo = config::connect();
+$anggota = auth::getInstance($pdo);
 
-if (!$user->isLoggedIn()) {
+if (!$anggota->isLoggedIn()) {
     $login = isset($_GET['auth']) ? $_GET['auth'] : 'auth';
     switch ($login) {
         case 'login':
@@ -28,7 +28,7 @@ if (!$user->isLoggedIn()) {
             header("Location: index.php");
             exit();
         }
-        include('page/user/logout.php');
+        include('page/anggota/logout.php');
     } else {
 ?>
         <!DOCTYPE html>
@@ -37,7 +37,7 @@ if (!$user->isLoggedIn()) {
         <head>
             <meta charset="UTF-8">
             <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-            <title>Kasir Daffa</title>
+            <title>my crud</title>
             <?php include 'layout/stylecss.php'; ?>
         </head>
 
@@ -50,7 +50,7 @@ if (!$user->isLoggedIn()) {
 
                 <!-- Loading -->
                 <div class="preloader flex-column justify-content-center align-items-center">
-                    <img class="animation__shake" src="asset/img/load/Kasirlogo.png" alt="Kasirlogo" height="80" width="150">
+                    <img class="animation__shake" src="asset/img/load/Kasirlogo.png" alt="logo perpustakaan" height="80" width="150">
                 </div>
 
                 <!-- Main Content -->
@@ -59,8 +59,8 @@ if (!$user->isLoggedIn()) {
                         <?php
                         $page = isset($_GET["page"]) ? $_GET["page"] : 'dashboard';
                         switch ($page) {
-                            case 'user':
-                                include('page/user/default.php');
+                            case 'anggota':
+                                include('page/anggota/default.php');
                                 break;
                             case 'member':
                                 include('page/member/default.php');
